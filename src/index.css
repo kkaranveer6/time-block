@@ -1,0 +1,53 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(200px, 1fr));
+  height: 100vh;
+}
+
+.days {
+  display: flex;
+  border-left: 1px solid black;
+  /* justify-content: center; */
+  height: 100%;
+  flex-direction: column;
+}
+
+.days h1 {
+  text-align: center;
+}
+
+.time {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.time:hover {
+  background-color: rgb(149, 212, 233);
+}
+
+.time::selection {
+  background-color: rgb(93, 211, 250);
+}
+
+.selected {
+  background-color: rgb(93, 211, 250);
+}
+
+.times {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: space-evenly;
+}
+
+.selected-time {
+  background-color: rgb(93, 211, 250);
+}
