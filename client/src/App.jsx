@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [days, setDays] = useState([
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
   ]);
 
-  const [times, setTimes] = useState([
+  const times = [
     "01:00",
     "02:00",
     "03:00",
@@ -36,74 +36,85 @@ function App() {
     "22:00",
     "23:00",
     "24:00",
-  ]);
+  ];
 
   const defaultSlectedState = [
     {
-      day: "Monday",
+      day: "monday",
       times: [],
     },
     {
-      day: "Tuesday",
-      times: [],
-    },
-
-    {
-      day: "Wednesday",
+      day: "tuesday",
       times: [],
     },
 
     {
-      day: "Thursday",
+      day: "wednesday",
       times: [],
     },
 
     {
-      day: "Friday",
+      day: "thursday",
       times: [],
     },
 
     {
-      day: "Saturday",
+      day: "friday",
       times: [],
     },
 
     {
-      day: "Sunday",
+      day: "saturday",
+      times: [],
+    },
+
+    {
+      day: "sunday",
       times: [],
     },
   ];
 
   const [selected, setSelected] = useState(defaultSlectedState);
 
-  // const [colors, setColors] = useState(["red", "blue", "green", "yellow"]);
-  // const [selectedColor, setSelectedColor] = useState("red");
+  const apiAddtime = ({ day, time }) => {
+    fetch("http://localhost:3000/time", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        time: time,
+        day: day,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
+  };
 
   const toggleSelectTime = (e, day, time) => {
     let newTimes = selected;
     e.target.classList.toggle("selected-time");
+    console.log(`${day} ${time}`);
+
     newTimes.map((selectedTimes) => {
       if (selectedTimes.day == day) {
         let times = selectedTimes.times;
         if (times.includes(time)) {
           let index = times.indexOf(time);
           times.splice(index, 1);
+
           // e.target.style.backgroundColor = "white";
         } else {
           times.push(time);
+          apiAddtime({ day: day, time: time });
+
           // e.target.style.backgroundColor = selectedColor;
         }
       }
     });
 
     setSelected(newTimes);
-  };
-
-  const testApi = () => {
-    fetch("http://localhost:3000")
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err));
   };
 
   return (
@@ -134,14 +145,6 @@ function App() {
           </div>
         ))}
       </div>
-      {/* {colors.map((color) => (
-        <div
-          style={{ height: "1em", width: "1em", backgroundColor: color }}
-          onClick={() => setSelectedColor(color)}
-        ></div>
-      ))} */}
-      <button onClick={() => console.log(selected)}>check state</button>
-      <button onClick={testApi}>test api</button>
     </div>
   );
 }
